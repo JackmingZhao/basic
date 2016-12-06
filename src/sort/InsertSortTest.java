@@ -11,10 +11,13 @@ public class InsertSortTest {
 	public static void main(String[] args) {
 		int[] array = SortFather.getArray(10);
 		System.out.println("原始数组：" + Arrays.toString(array));
-//		dosort(array);
-//		binaryInsertSort(array);
-		optimalInsertSort(array);
+		halfSortAsc(array);
 		System.out.println("排序之后数组：" + Arrays.toString(array));
+//		binaryInsertSort(array);
+//		System.out.println(Arrays.toString(array));
+//		dosort(array);
+//		System.out.println("原始数组：" + Arrays.toString(array));
+//		optimalInsertSort(array);
 //		System.out.println("优化排序之后数组：" + Arrays.toString(array));
 	}
 	
@@ -56,8 +59,8 @@ public class InsertSortTest {
 			int temp = array[i];//待排序对象
 			//int index = binarySearchDesc(array, temp, 0, i);//找到要插入的位置
 			int index = binarySearchAsc(array, temp, 0, i);//找到要插入的位置
-			System.out.println("第" + i +"个索引上的元素要插入的位置是：" + index);
 			System.out.println(Arrays.toString(array));
+			System.out.println("第" + i +"个索引上的元素要插入的位置是：" + index);
 			for(int j = i;j>index;j--) {//前j个元素都是排序好的元素，将排序好的元素依次往后替换，直到第index结束
 				array[j]=array[j-1];
 			}
@@ -66,16 +69,16 @@ public class InsertSortTest {
 	}
 	
 	public static int binarySearchDesc(int[] ary, int target, int from, int to) {
-		int range = to - from;  
+		int range = to - from; //如果范围大于0，则在两个元素以上
         if (range > 0) {  
             int mid = (from + to) / 2;  
-            if (ary[mid] < target) {  
+            if (ary[mid] < target) {  //大的往左放就是降序，小的往左放就是升序
                 return binarySearchDesc(ary, target, mid + 1, to);  
             } else {  
                 return binarySearchDesc(ary, target, from, mid - 1);  
             }  
         } else {  
-            if (ary[from] > target) {
+            if (ary[from] > target) {//降序大的往前放，也就是目标应该在from+1
                 return from + 1;  
             } else {  
                 return from;  
@@ -93,12 +96,33 @@ public class InsertSortTest {
                 return binarySearchAsc(ary, target, mid + 1, to);  
             }  
         } else {  
-            if (ary[from] > target) {
+            if (ary[from] < target) {
                 return from + 1;  
             } else {  
                 return from;  
             }  
         }  
+	}
+	
+	public static void halfSortAsc(int[] ary) {
+		for(int i=1; i<ary.length; i++) {
+			int temp = ary[i];
+			int low = 0;
+			int high = i-1;
+			while(low<=high) {
+				int mid = (low+high)/2;
+				if(ary[mid]>temp)
+					high=mid-1;
+				else
+					low=mid+1;
+			}
+			System.out.println("low="+low+";high="+high);
+			for(int j=i-1;j>high;j--) {
+				ary[j+1]=ary[j];
+			}
+			ary[high+1]=temp;
+			System.out.println(Arrays.toString(ary));
+		}
 	}
 
 }

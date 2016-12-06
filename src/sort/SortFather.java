@@ -19,6 +19,8 @@ public class SortFather {
 	}
 	
 	public static void main(String[] args) {
+		int i= (2+5)/2;
+		System.out.println(i);
 		int[] r = getArray(20);
 		System.out.println(Arrays.toString(r));
 	}
