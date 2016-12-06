@@ -5,63 +5,100 @@ import java.util.Arrays;
 public class InsertSortTest {
 	
 	/**
-	 * ʱ�临�Ӷ�Ϊ��O(n^2)
+	 * 时间复杂度为：O(n^2)
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		int[] array = SortFather.getArray(10);
-		System.out.println("ԭʼ���飺" + Arrays.toString(array));
+		System.out.println("原始数组：" + Arrays.toString(array));
 //		dosort(array);
-//		System.out.println("����֮�����飺" + Arrays.toString(array));
+//		binaryInsertSort(array);
 		optimalInsertSort(array);
-		System.out.println("�Ż�����֮�����飺" + Arrays.toString(array));
+		System.out.println("排序之后数组：" + Arrays.toString(array));
+//		System.out.println("优化排序之后数组：" + Arrays.toString(array));
 	}
 	
+	//基本的插入排序
 	public static void dosort(int[] array) {
 		for(int i = 1; i <array.length;i++) {
-			int temp = array[i]; //��¼�µ�ǰ����ڱ�ֵ
-			int position = i; //��¼�ڱ���λ��
-			for(int j = i-1;j>=0;j--) {//���ڱ���λ����ǰ�����Ѿ��ź����
-				if(array[j]>temp) {//��������������ֻҪ�����ڱ���ֵ���ڱ���λ�þ���ǰ�ƶ�
+			int temp = array[i]; //记录下当前这个哨兵值
+			int position = i; //记录哨兵的位置
+			for(int j = i-1;j>=0;j--) {//从哨兵的位置往前都是已经排好序的
+				if(array[j]>temp) {//这里是升序排序，只要大于哨兵的值，哨兵的位置就往前移动
 					array[j+1] = array[j];
-					position -= 1;//�ڱ�Ӧ���ڵ�λ��
+					position -= 1;//哨兵应该在的位置，每循环一次向前移一位
 				} else {
-					break;//��������ڣ�ֱ������ѭ��
+					break;//如果不大于，直接跳出循环，进行下一个哨兵的排序
 				}
 			}
 			
-			array[position] = temp;//���ڱ������µ�λ��
-			System.out.println("�仯���飺" + Arrays.toString(array));
+			array[position] = temp;//将哨兵放入新的位置
+			System.out.println("变化数组：" + Arrays.toString(array));
 		}
 	}
 	
+	//代码优化之后的插入排序
 	public static void optimalInsertSort(int[] array) {
 		for(int i = 1; i <array.length;i++) {
-			for(int j = i-1; j>=0 && array[j] > array[j+1]; j--) {
+			for(int j = i-1; j>=0 && array[j] > array[j+1]; j--) {//j前的数据都是以排好的，前一个数据小于当前数，就交换位置，正序
 				int temp = array[j+1];
 				array[j+1] = array[j];
 				array[j] = temp;
 			}
-			System.out.println("�仯���飺" + Arrays.toString(array));
+			System.out.println("变化数组：" + Arrays.toString(array));
 		}
 	}
 	
-	public static int binarySearch(int[] array, int target, int from, int to) {
-		int range = to-from;
-		if(range>0) {
-			int mid = (to+from)/2;
-			if(array[mid]>target) {
-				return binarySearch(array, target, from, mid + 1);
-			} else {
-				return binarySearch(array, target, mid + 1, to);
+	//折半排序
+	//复杂度是O(n*log2n)，空间复杂度为O(1)
+	public static void binaryInsertSort(int[] array) {
+		for(int i =1 ;i<array.length;i++) {
+			int temp = array[i];//待排序对象
+			//int index = binarySearchDesc(array, temp, 0, i);//找到要插入的位置
+			int index = binarySearchAsc(array, temp, 0, i);//找到要插入的位置
+			System.out.println("第" + i +"个索引上的元素要插入的位置是：" + index);
+			System.out.println(Arrays.toString(array));
+			for(int j = i;j>index;j--) {//前j个元素都是排序好的元素，将排序好的元素依次往后替换，直到第index结束
+				array[j]=array[j-1];
 			}
-		} else {
-			if(array[from]>target) {
-				return from;
-			} else {
-				return from + 1;
-			}
+			array[index]=temp;//将待排序元素插入到应插入位置
 		}
+	}
+	
+	public static int binarySearchDesc(int[] ary, int target, int from, int to) {
+		int range = to - from;  
+        if (range > 0) {  
+            int mid = (from + to) / 2;  
+            if (ary[mid] < target) {  
+                return binarySearchDesc(ary, target, mid + 1, to);  
+            } else {  
+                return binarySearchDesc(ary, target, from, mid - 1);  
+            }  
+        } else {  
+            if (ary[from] > target) {
+                return from + 1;  
+            } else {  
+                return from;  
+            }  
+        }  
+	}
+	
+	public static int binarySearchAsc(int[] ary, int target, int from, int to) {
+		int range = to - from;  
+        if (range > 0) {  
+            int mid = (from + to) / 2;  
+            if (ary[mid] > target) {  
+                return binarySearchAsc(ary, target, from, mid - 1);  
+            } else {  
+                return binarySearchAsc(ary, target, mid + 1, to);  
+            }  
+        } else {  
+            if (ary[from] > target) {
+                return from + 1;  
+            } else {  
+                return from;  
+            }  
+        }  
 	}
 
 }
