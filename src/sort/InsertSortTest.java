@@ -9,20 +9,30 @@ public class InsertSortTest {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		int[] array = SortFather.getArray(10);
-		System.out.println("原始数组：" + Arrays.toString(array));
-		halfSortAsc(array);
-		System.out.println("排序之后数组：" + Arrays.toString(array));
+		int[] array = SortFather.getArray(20000);
+		/**插入排序**/
+//		System.out.println("原始数组：" + Arrays.toString(array));
+//		dosort(array);
+//		optimalInsertSort(array);
+//		System.out.println("排序之后数组：" + Arrays.toString(array));
+		
+		/**折半排序**/
+//		System.out.println("原始数组：" + Arrays.toString(array));
+//		halfSortAsc(array);
 //		binaryInsertSort(array);
 //		System.out.println(Arrays.toString(array));
-//		dosort(array);
-//		System.out.println("原始数组：" + Arrays.toString(array));
-//		optimalInsertSort(array);
 //		System.out.println("优化排序之后数组：" + Arrays.toString(array));
+		
+		/**希尔排序**/
+		//int[] array = {-39, -86, 93, -61, -27, 90, -30, 67, -93, 27};
+		//System.out.println("原始数组：" + Arrays.toString(array));
+		shellSortAsc(array);
+		//System.out.println("排序之后数组：" + Arrays.toString(array));
 	}
 	
 	//基本的插入排序
 	public static void dosort(int[] array) {
+		long start = System.currentTimeMillis(); 
 		for(int i = 1; i <array.length;i++) {
 			int temp = array[i]; //记录下当前这个哨兵值
 			int position = i; //记录哨兵的位置
@@ -36,8 +46,10 @@ public class InsertSortTest {
 			}
 			
 			array[position] = temp;//将哨兵放入新的位置
-			System.out.println("变化数组：" + Arrays.toString(array));
+			//System.out.println("变化数组：" + Arrays.toString(array));
 		}
+		long end = System.currentTimeMillis();  
+	    System.out.println("耗时：" + (end - start) + "毫秒");  
 	}
 	
 	//代码优化之后的插入排序
@@ -52,20 +64,22 @@ public class InsertSortTest {
 		}
 	}
 	
-	//折半排序
-	//复杂度是O(n*log2n)，空间复杂度为O(1)
+	//折半排序、二分排序  O(n*log↓2n)
 	public static void binaryInsertSort(int[] array) {
+		long start = System.currentTimeMillis(); 
 		for(int i =1 ;i<array.length;i++) {
 			int temp = array[i];//待排序对象
 			//int index = binarySearchDesc(array, temp, 0, i);//找到要插入的位置
 			int index = binarySearchAsc(array, temp, 0, i);//找到要插入的位置
-			System.out.println(Arrays.toString(array));
-			System.out.println("第" + i +"个索引上的元素要插入的位置是：" + index);
+			//System.out.println(Arrays.toString(array));
+			//System.out.println("第" + i +"个索引上的元素要插入的位置是：" + index);
 			for(int j = i;j>index;j--) {//前j个元素都是排序好的元素，将排序好的元素依次往后替换，直到第index结束
 				array[j]=array[j-1];
 			}
 			array[index]=temp;//将待排序元素插入到应插入位置
-		}
+		}  
+	    long end = System.currentTimeMillis();  
+	    System.out.println("耗时：" + (end - start) + "毫秒");  
 	}
 	
 	public static int binarySearchDesc(int[] ary, int target, int from, int to) {
@@ -105,24 +119,55 @@ public class InsertSortTest {
 	}
 	
 	public static void halfSortAsc(int[] ary) {
+		long start = System.currentTimeMillis();  
 		for(int i=1; i<ary.length; i++) {
 			int temp = ary[i];
 			int low = 0;
 			int high = i-1;
 			while(low<=high) {
 				int mid = (low+high)/2;
-				if(ary[mid]>temp)
+				if(ary[mid]<temp)
+					low=mid+1;
+				else
+					high=mid-1;
+				/*降序
+				 * if(ary[mid]<temp)
 					high=mid-1;
 				else
-					low=mid+1;
+					low=mid+1;*/
 			}
-			System.out.println("low="+low+";high="+high);
+			//System.out.println("low="+low+";high="+high);
 			for(int j=i-1;j>high;j--) {
 				ary[j+1]=ary[j];
 			}
 			ary[high+1]=temp;
-			System.out.println(Arrays.toString(ary));
-		}
+			//System.out.println(Arrays.toString(ary));
+		}  
+	    long end = System.currentTimeMillis();  
+	    System.out.println("耗时：" + (end - start) + "毫秒");  
+	}
+	
+	public static void shellSortAsc(int[] ary) {
+		long start = System.currentTimeMillis();  
+		int n = ary.length;
+		for(int gap = n/2; gap>0; gap/=2) {
+			for(int i=0; i<gap; i++) {
+				for(int j = i+gap; j<n; j+=gap) {
+					if(ary[j]<ary[j-gap]) {
+						int temp = ary[j];
+						int k = j -gap;
+						while(k>=0&&ary[k]>temp) {
+							ary[k+gap] = ary[k];
+							k-=gap;
+						}
+						ary[k+gap]=temp;
+					}
+				}
+			}
+			//System.out.println("变化数组："+Arrays.toString(ary));
+		}  
+	    long end = System.currentTimeMillis();  
+	    System.out.println("耗时：" + (end - start) + "毫秒");  
 	}
 
 }

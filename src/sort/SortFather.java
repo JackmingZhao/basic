@@ -7,7 +7,7 @@ public class SortFather {
 	public static int[] getArray(int length) {
 		int[] r = new int[length];
 		for(int i=0;i<length;i++) {
-			r[i]=getRandom(100);
+			r[i]=getRandom(20000);
 		}
 		return r;
 	}
@@ -21,6 +21,8 @@ public class SortFather {
 	public static void main(String[] args) {
 		int i= (2+5)/2;
 		System.out.println(i);
+		int j = 5;
+		System.out.println(j/=2);
 		int[] r = getArray(20);
 		System.out.println(Arrays.toString(r));
 	}
