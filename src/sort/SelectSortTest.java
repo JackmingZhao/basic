@@ -6,18 +6,19 @@ public class SelectSortTest {
 	
 	public static void main(String[] args) {
 		/**获取测试数组**/
-//		int[] array = SortFather.getArray(30000);
-		int[] array = {0, 16, 20, 3, 11, 17, 8};
-		System.out.println("原始数组："+Arrays.toString(array));
+		int[] array = SortFather.getArray(30000);
+//		int[] array = {0, 16, 20, 3, 11, 17, 8};
+//		System.out.println("原始数组："+Arrays.toString(array));
 //		selectSortAsc(array);
-		heapSortAsc(array);
-		System.out.println("排序后数组："+Arrays.toString(array));
+//		heapSortAsc(array);
+		dualSelectAsc(array);
+//		System.out.println("排序后数组："+Arrays.toString(array));
 	}
 	
 	//选择排序 时间复杂度O(n^2)  1200毫秒
 	public static void selectSortAsc(int ary[]) {
-		long start = System.currentTimeMillis();
 		int n = ary.length, i, j, index;
+		long start = System.currentTimeMillis();
 		for (i = 0; i < n; i++) {
 			index = i;//记录的是最小值得坐标
 			for (j = i + 1; j < n; j++) {//依次与后边的数据相比较，只要遇到更小的值就记录
@@ -91,9 +92,36 @@ public class SelectSortTest {
 			int temp = array[index];
 			array[index] = array[largest];
 			array[largest] = temp;
-			//继续进行修正，有可能交换之后堆变了
+			//继续进行修正，有可能交换之后其他子树或整个树变了
 			maxHeap(array, heapSize, largest);
 		}
+	}
+	
+	//二元选择排序，每次找出这趟的最大值和最小值  997毫秒
+	public static void dualSelectAsc(int ary[]) {
+		int n = ary.length, i, j, max, min;
+		long start = System.currentTimeMillis();
+		for(i =0; i<n/2; i++) {
+			max=min=i;
+			for(j=i; j<n-i; j++) {
+				if(ary[j]<ary[min]) {
+					min = j;
+					//是最小了就不用再比较是不是最大了
+					continue;
+				}
+				if(ary[j]>ary[max]) {
+					max = j;
+				}
+			}
+			int maxtemp = ary[max];
+			int mintemp = ary[min];
+			ary[min] = ary[i];
+			ary[max] = ary[n-i-1];
+			ary[i] = mintemp;
+			ary[n-i-1] = maxtemp;
+		}
+		long end = System.currentTimeMillis();
+		System.out.println("耗时：" + (end - start) + "毫秒");
 	}
 
 }
