@@ -9,7 +9,7 @@ public class BubbleSortTest {
 		int[] array = {0, 16, 20, 3, 11, 17, 8, 21, 22, 23, 24, 25, 26};
 		System.out.println("原始数组："+Arrays.toString(array));
 //		bubbleSortAsc(array);
-		bubbleSortAsc(array);
+		bubbleSortAsc2(array);
 		System.out.println("排序后数组："+Arrays.toString(array));
 	}
 	
@@ -30,6 +30,7 @@ public class BubbleSortTest {
 		System.out.println("耗时：" + (end - start) + "毫秒");
 	}
 	
+	//2194毫秒
 	public static void bubbleSortAsc2(int[] ary) {
 		//设置一个标记，当没有发生交换的时候，说明排序已完成，后面的就不用再进行比较了
 		boolean flag = true;

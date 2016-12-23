@@ -12,8 +12,8 @@ public class MergeSortTest {
 		mergeArray(a, b, c);
 		System.out.println("合并之后数组:"+Arrays.toString(c));*/
 		
-		int[] array = SortFather.getArray(30000);
-//		int[] array = {0, 16, 20, 3, 11, 17, 8};
+//		int[] array = SortFather.getArray(30000);
+		int[] array = {0, 16, 20, 3, 11, 17, 8};
 //		System.out.println("原始数组："+Arrays.toString(array));
 		dosort(array);
 //		System.out.println("排序后数组："+Arrays.toString(array));
@@ -66,6 +66,7 @@ public class MergeSortTest {
 		while(j<=m)
 			temp[k++]=a[j++];
 		
+		//从first开始复制temp里的值
 		for(i=0;i<k;i++)
 			a[first+i]=temp[i];
 	}

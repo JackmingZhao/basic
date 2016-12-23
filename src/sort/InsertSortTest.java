@@ -13,10 +13,11 @@ public class InsertSortTest {
 //		int[] array = SortFather.getArray(30000);
 		
 		/**插入排序**/
-		int[] array = {-39, -86, 93, -61, -27, 90, -30, 67, -93, 27};
+		int[] array = {-39, -86, 93, -61, -27, 90, -30, 67, -93};
 		System.out.println("原始数组：" + Arrays.toString(array));
 //		dosort(array);
-		optimalInsertSort(array);
+		shellSortAsc2(array);
+//		optimalInsertSort(array);
 		System.out.println("排序之后数组：" + Arrays.toString(array));
 		
 		/**折半排序**/

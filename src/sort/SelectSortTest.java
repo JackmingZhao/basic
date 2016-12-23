@@ -80,7 +80,7 @@ public class SelectSortTest {
 
 		int largest = index;//记录最大的节点，index代表父节点
 		if (left < heapSize && array[left] > array[index]) {
-			//如果左孩子角标小于最大角标并且左孩子大于父节点的值，则次树就会进行交换
+			//如果左孩子角标小于最大角标并且左孩子大于父节点的值，则此处就会进行交换
 			largest = left;
 		}
 
@@ -88,6 +88,7 @@ public class SelectSortTest {
 			largest = right;
 		}
 
+		//如果不相等，说明中间有交换，则将最大节点交换过来
 		if (index != largest) {
 			int temp = array[index];
 			array[index] = array[largest];

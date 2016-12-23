@@ -5,14 +5,15 @@ import java.util.Arrays;
 public class RadixSortTest {
 
 	public static void main(String[] args) {
-		// System.out.println(getDigit(1736496234, 6));
-		int[] array = {243, 3, 125, 621, 1221, 45};
+		System.out.println(getDigit(3, 2));
+		int[] array = SortFather.getArray(30000);
+//		int[] array = {243, 3, 125, 621, 1221, 45};
 		// int max = getMax(array);
 		// System.out.println(max);
 //		System.out.println(digit(23445));
-		System.out.println("排序前数组："+Arrays.toString(array));
+//		System.out.println("排序前数组："+Arrays.toString(array));
 		radixSort(array);
-		System.out.println("排序后数组："+Arrays.toString(array));
+//		System.out.println("排序后数组："+Arrays.toString(array));
 	}
 
 	/**
@@ -22,7 +23,7 @@ public class RadixSortTest {
 		while ((--n) > 0) {// 位数每次递减，直至--n=0说明找到位置，使用--n，实际当n=1时，个位既是要找的位置
 			d /= 10;// 每次除10，相当于每次从个为往前去掉1位
 		}
-		return d % 10;// 取10的模，如果是大于两位数字以上，那就是取的各位，如果是个位数，那就是本身
+		return d % 10;//如果d大于0，则取的是整数，也就是个位的数字，如果小于零，则返回的是最小正整数0
 	}
 
 	public static int getMax(int[] a) {
@@ -48,12 +49,15 @@ public class RadixSortTest {
 	}
 
 	/**
-	 * 基数排序
+	 * 基数排序 时间复查度:O(d(r+n)) 10毫秒
+	 * 从个位起，按0-9个数将这一组数据分成10个桶，然后是10位，然后是百位....
+	 * 该算法只支持正数排序
 	 * **/
 	public static void radixSort(int[] a) {
 		int max = getMax(a);// 最大数
 		int n = a.length;
 		int digit = digit(max);// 最大数是几位数
+		long start = System.currentTimeMillis();
 		int c = 0;
 		for (int i = 1; i <= digit; i++) {
 			int[][] pdigit = new int[10][n];
@@ -76,6 +80,8 @@ public class RadixSortTest {
 			pdigit = null;
 			c = 0;
 		}
+		long end = System.currentTimeMillis();
+		System.out.println("耗时：" + (end - start) + "毫秒");
 	}
 
 }

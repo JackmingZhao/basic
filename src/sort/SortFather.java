@@ -7,9 +7,13 @@ public class SortFather {
 	public static int[] getArray(int length) {
 		int[] r = new int[length];
 		for(int i=0;i<length;i++) {
-			r[i]=getRandom(20000);
+			r[i]=getRandom1(20000);
 		}
 		return r;
+	}
+	
+	private static int getRandom1(int max) {
+		return (int)(Math.random()*max);
 	}
 	
 	private static int getRandom(int max) {
